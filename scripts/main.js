@@ -19,7 +19,8 @@ async function onDraft(){
         courseNum: document.getElementById("courseNum").value,
         courseName: document.getElementById("courseName").value,
         instructor: document.getElementById("instructor").value,
-        numDays: document.getElementById("numDays").value
+        numDays: document.getElementById("numDays").value,
+        startDate: document.getElementById("startDate").value
     };
     localStorage.currentId = id;
     localStorage.currentData = JSON.stringify(payload);
@@ -33,11 +34,16 @@ async function onSave(which){
         courseNum: document.getElementById("courseNum").value,
         courseName: document.getElementById("courseName").value,
         instructor: document.getElementById("instructor").value,
-        numDays: document.getElementById("numDays").value
+        numDays: document.getElementById("numDays").value,
+        startDate: document.getElementById("startDate").value
     };
 
-    const response = await fetch(base_url + "/api/courses/" + id,{
-        method: "PUT",
+    //CREATE OR UPDATE? DO WE HAVE AN ID?
+    const endpoint = id ? "/api/courses/" + id : "/api/courses";
+    const method = id ? "PUT" : "POST";
+
+    const response = await fetch(base_url + endpoint,{
+        method: method,
         body: JSON.stringify(payload),
         headers: {
             "Content-Type": "application/json"
@@ -52,6 +58,7 @@ function onNew(){
     document.getElementById("courseName").value = "";
     document.getElementById("instructor").value = "";
     document.getElementById("numDays").value = "";
+    document.getElementById("startDate").value = "";
     onDraft();
     document.querySelector("#edit-item details").open = true;
     document.getElementById("dept").focus();
@@ -69,6 +76,7 @@ async function onEdit(which){
     document.getElementById("courseName").value = data.courseName;
     document.getElementById("instructor").value = data.instructor;
     document.getElementById("numDays").value = data.numDays;
+    document.getElementById("startDate").value = data.startDate;
     onDraft();
     document.querySelector("#edit-item details").open = true;
     // document.querySelector("#edit-item details").setAttribute("open", "open");
@@ -95,6 +103,7 @@ async function refreshList(list){
                     <tr><th>courseNum</th><td>${item.courseNum}</td></tr>
                     <tr><th>instructor</th><td>${item.instructor}</td></tr>
                     <tr><th>numDays</th><td>${item.numDays}</td></tr>
+                    <tr><th>numDays</th><td>${item.startDate}</td></tr>
                 </table>
                 <button onclick="onEdit(this)">Edit Item in Form Above</button>
                 <button onclick="onRemove(this)">Remove</button>
