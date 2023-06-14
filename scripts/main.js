@@ -10,6 +10,21 @@ let example = {
 
 const base_url = "http://127.0.0.1:8081";
 const courses_endpoint = "/api/courses";
+
+async function onDraft(){
+    const id = document.getElementById("id").value;
+
+    const payload = {
+        dept: document.getElementById("dept").value,
+        courseNum: document.getElementById("courseNum").value,
+        courseName: document.getElementById("courseName").value,
+        instructor: document.getElementById("instructor").value,
+        numDays: document.getElementById("numDays").value
+    };
+    localStorage.currentId = id;
+    localStorage.currentData = JSON.stringify(payload);
+}
+
 async function onSave(which){
     const id = document.getElementById("id").value;
 
@@ -37,7 +52,7 @@ async function onNew(){
     document.getElementById("courseName").value = "";
     document.getElementById("instructor").value = "";
     document.getElementById("numDays").value = "";
-
+    onDraft();
     document.querySelector("#edit-item details").open = true;
     document.getElementById("dept").focus();
     // document.querySelector("#edit-item details").setAttribute("open", "open");
@@ -54,7 +69,7 @@ async function onEdit(which){
     document.getElementById("courseName").value = data.courseName;
     document.getElementById("instructor").value = data.instructor;
     document.getElementById("numDays").value = data.numDays;
-
+    onDraft();
     document.querySelector("#edit-item details").open = true;
     // document.querySelector("#edit-item details").setAttribute("open", "open");
 }
@@ -90,8 +105,25 @@ async function refreshList(list){
     output += `</table>`;
     list.innerHTML = output;
 }
-
+function onRestore(){
+    const id = localStorage.currentId ?  localStorage.currentId : "";
+    const data = localStorage.currentData ? JSON.parse(localStorage.currentData) : {
+        dept: "",
+        courseNum:  "",
+        courseName:  "",
+        instructor:  "",
+        numDays:  ""
+    };
+    
+    document.getElementById("id").value = id;
+    document.getElementById("dept").value = data.dept;
+    document.getElementById("courseNum").value = data.courseNum;
+    document.getElementById("courseName").value = data.courseName;
+    document.getElementById("instructor").value = data.instructor;
+    document.getElementById("numDays").value = data.numDays;
+}
 document.addEventListener("DOMContentLoaded", ()=>{
     const list = document.getElementById("item-list");
+    onRestore();
     refreshList(list);
 });//end loaded

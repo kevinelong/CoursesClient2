@@ -15,11 +15,11 @@
             <fieldset>
                 <legend>Enter Item Data</legend>
                     <input id="id" type="hidden" value="">
-                    <label><input value="" id="dept" placeholder="dept"></label>
-                    <label><input value="" id="courseNum" placeholder="courseNum"></label>
-                    <label><input value="" id="courseName" placeholder="courseName"></label>
-                    <label><input value="" id="instructor" placeholder="instructor"></label>
-                    <label><input value="" id="numDays" placeholder="numDays"> Days</label>
+                    <label><input onchange="onDraft()" value="" id="dept" placeholder="dept"></label>
+                    <label><input onchange="onDraft()" value="" id="courseNum" placeholder="courseNum"></label>
+                    <label><input onchange="onDraft()" value="" id="courseName" placeholder="courseName"></label>
+                    <label><input onchange="onDraft()" value="" id="instructor" placeholder="instructor"></label>
+                    <label><input onchange="onDraft()" value="" id="numDays" placeholder="numDays"> Days</label>
                     <button id="save" onclick="onSave(this)">Save</button>                
                 </table>
             </fieldset>
