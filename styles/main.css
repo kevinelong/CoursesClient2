@@ -1,0 +1,9 @@
+body{
+    background: darkslategray;
+    color: silver;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 3vw;
+}
+button{
+    font-size: 2vw;
+}
