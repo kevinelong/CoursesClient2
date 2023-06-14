@@ -1,12 +1,12 @@
-let example = {
-    "id": 1, 
-    "dept": "CompSci", 
-    "courseNum": 101, 
-    "courseName": "HTML5 and CSS3", 
-    "instructor": "Rob", 
-    "startDate": "July 8", 
-    "numDays": 10
-};
+// let example = {
+//     "id": 1, 
+//     "dept": "CompSci", 
+//     "courseNum": 101, 
+//     "courseName": "HTML5 and CSS3", 
+//     "instructor": "Rob", 
+//     "startDate": "July 8", 
+//     "numDays": 10
+// };
 
 const base_url = "http://127.0.0.1:8081";
 const courses_endpoint = "/api/courses";
@@ -30,13 +30,17 @@ async function onSave(which){
     const id = document.getElementById("id").value;
 
     const payload = {
-        dept: document.getElementById("dept").value,
-        courseNum: document.getElementById("courseNum").value,
+        dept:       document.getElementById("dept").value,
+        courseNum:  document.getElementById("courseNum").value,
         courseName: document.getElementById("courseName").value,
         instructor: document.getElementById("instructor").value,
-        numDays: document.getElementById("numDays").value,
-        startDate: document.getElementById("startDate").value
+        numDays:    document.getElementById("numDays").value,
+        startDate:  document.getElementById("startDate").value
     };
+    // const fields = ["dept", "courseNum", "courseName", "instructor", "numDays", "startDate"];
+    // const payload = {};
+    // fields.forEach(f => payload[f] = document.getElementById(f).value);
+    
 
     //CREATE OR UPDATE? DO WE HAVE AN ID?
     const endpoint = id ? "/api/courses/" + id : "/api/courses";
@@ -49,6 +53,9 @@ async function onSave(which){
             "Content-Type": "application/json"
         },
     });
+    if(id){
+        onNew(); //Clear only if new item saved.
+    }
     refreshList(document.getElementById("item-list"));
 }
 function onNew(){
@@ -71,12 +78,14 @@ async function onEdit(which){
     const data = await response.json(); // parse
     
     document.getElementById("id").value = id;
+
     document.getElementById("dept").value = data.dept;
     document.getElementById("courseNum").value = data.courseNum;
     document.getElementById("courseName").value = data.courseName;
     document.getElementById("instructor").value = data.instructor;
     document.getElementById("numDays").value = data.numDays;
     document.getElementById("startDate").value = data.startDate;
+
     onDraft();
     document.querySelector("#edit-item details").open = true;
     // document.querySelector("#edit-item details").setAttribute("open", "open");
@@ -103,7 +112,7 @@ async function refreshList(list){
                     <tr><th>courseNum</th><td>${item.courseNum}</td></tr>
                     <tr><th>instructor</th><td>${item.instructor}</td></tr>
                     <tr><th>numDays</th><td>${item.numDays}</td></tr>
-                    <tr><th>numDays</th><td>${item.startDate}</td></tr>
+                    <tr><th>startDate</th><td>${item.startDate}</td></tr>
                 </table>
                 <button onclick="onEdit(this)">Edit Item in Form Above</button>
                 <button onclick="onRemove(this)">Remove</button>
