@@ -18,16 +18,23 @@ async function refreshList(list){
     // list.innerHTML = "Can has list???"
     const response = await fetch(base_url + courses_endpoint);
     const data = await response.json(); // parse json
-    let output = `<table border="1">`;
+    let output = `<table>`;
     data.forEach((item)=>{
         output += `<tr id="${item.id}">
-        <!-- <td>${item.id}</td> -->
-        <td>${item.dept}</td>
-        <td>${item.courseNum}</td>
-        <td>${item.courseName}</td>
-        <td>${item.instructor}</td>
-        <td>${item.numDays}</td>
-        <td><button onclick="onRemove(this)">Remove</button></td>
+        <td>
+            <details>
+                <summary>${item.courseName}</summary>
+                <table>
+                    <tr><th>id</th><td>${item.id}</td></tr>
+                    <tr><th>dept</th><td>${item.dept}</td></tr>
+                    <tr><th>courseNum</th><td>${item.courseNum}</td></tr>
+                    <tr><th>instructor</th><td>${item.instructor}</td></tr>
+                    <tr><th>numDays</th><td>${item.numDays}</td></tr>
+                </table>
+                <button onclick="onEdit(this)">Edit Item in Form Above</button>
+                <button onclick="onRemove(this)">Remove</button>
+            </details>
+        </td>
         </tr>`;
     });
     output += `</table>`;
