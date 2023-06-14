@@ -10,9 +10,59 @@ let example = {
 
 const base_url = "http://127.0.0.1:8081";
 const courses_endpoint = "/api/courses";
-function onRemove(which){
-    const id = which.closest("tr").id;
-    alert(id)
+async function onSave(which){
+    const id = document.getElementById("id").value;
+
+    const payload = {
+        dept: document.getElementById("dept").value,
+        courseNum: document.getElementById("courseNum").value,
+        courseName: document.getElementById("courseName").value,
+        instructor: document.getElementById("instructor").value,
+        numDays: document.getElementById("numDays").value
+    };
+
+    const response = await fetch(base_url + "/api/courses/" + id,{
+        method: "PUT",
+        body: JSON.stringify(payload),
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+    refreshList(document.getElementById("item-list"));
+}
+async function onNew(){
+    document.getElementById("id").value = "";
+    document.getElementById("dept").value = "";
+    document.getElementById("courseNum").value = "";
+    document.getElementById("courseName").value = "";
+    document.getElementById("instructor").value = "";
+    document.getElementById("numDays").value = "";
+
+    document.querySelector("#edit-item details").open = true;
+    document.getElementById("dept").focus();
+    // document.querySelector("#edit-item details").setAttribute("open", "open");
+}
+async function onEdit(which){
+    const row = which.closest("tr");
+    const id = row.id;
+    const response = await fetch(base_url + "/api/courses/" + id,{method: "GET"});
+    const data = await response.json(); // parse
+    
+    document.getElementById("id").value = id;
+    document.getElementById("dept").value = data.dept;
+    document.getElementById("courseNum").value = data.courseNum;
+    document.getElementById("courseName").value = data.courseName;
+    document.getElementById("instructor").value = data.instructor;
+    document.getElementById("numDays").value = data.numDays;
+
+    document.querySelector("#edit-item details").open = true;
+    // document.querySelector("#edit-item details").setAttribute("open", "open");
+}
+async function onRemove(which){
+    const row = which.closest("tr");
+    const id = row.id;
+    const response = await fetch(base_url + "/api/courses/" + id,{method: "DELETE"});
+    row.remove(); //Remove html element
 }
 async function refreshList(list){
     // list.innerHTML = "Can has list???"
