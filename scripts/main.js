@@ -45,7 +45,7 @@ async function onSave(which){
     });
     refreshList(document.getElementById("item-list"));
 }
-async function onNew(){
+function onNew(){
     document.getElementById("id").value = "";
     document.getElementById("dept").value = "";
     document.getElementById("courseNum").value = "";
@@ -76,7 +76,7 @@ async function onEdit(which){
 async function onRemove(which){
     const row = which.closest("tr");
     const id = row.id;
-    const response = await fetch(base_url + "/api/courses/" + id,{method: "DELETE"});
+    const response = await fetch(base_url + "/api/courses/" + id, {method: "DELETE"});
     row.remove(); //Remove html element
 }
 async function refreshList(list){
